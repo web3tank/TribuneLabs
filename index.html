@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tribune Labs</title>
-  <link rel="icon" href=
-  "Profile_Pic.ico"
-          type="image/x-icon" />  
+  <link rel="icon" href="Profile_Pic.ico" type="image/x-icon" />
+
   <style>
-    /* Reset */
+    /* RESET */
     * {
       margin: 0;
       padding: 0;
@@ -16,32 +15,46 @@
     }
 
     body {
+      /* Dark green gradient as a base */
+      background: linear-gradient(to bottom, #041b0c, #0c2f18);
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       font-family: "Helvetica Neue", Arial, sans-serif;
       color: #fff;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
 
-      background: linear-gradient(
-        to right,
-        #041b0c,
-        #0c2f18
-      );
+    /* Add a subtle star-like layer on top of the gradient */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('stars.png') repeat;
+      background-size: cover;
+      opacity: 0.2; 
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Subtle animation for the gradient */
+    @keyframes gradientShift {
+      0%   { background-position: 0% 0%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 0%; }
+    }
+    body {
       background-size: 200% 200%;
-      animation: bodyGradient 30s infinite alternate ease-in-out;
-      position: relative; 
+      animation: gradientShift 30s ease-in-out infinite;
     }
 
-    @keyframes bodyGradient {
-      0% {
-        background-position: 0% 50%;
-      }
-      100% {
-        background-position: 100% 50%;
-      }
-    }
-
+    /* HEADER */
     header {
       position: absolute;
       top: 0;
@@ -51,10 +64,11 @@
       align-items: center;
       justify-content: space-between;
       padding: 1rem 2rem;
+      z-index: 10;
     }
 
     .brand {
-      font-family: "Times New Roman", serif; 
+      font-family: "Times New Roman", serif;
       font-size: 1.5rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
@@ -77,45 +91,135 @@
       color: #ccc;
     }
 
-    /* Container for the "Coming Soon" text */
-    .coming-soon {
-      text-align: center;
-      padding: 2rem 3rem;
+    /* TV / SCREEN CONTAINER */
+    .tv-container {
+      position: relative;
+      z-index: 1;
+      width: 80%;
+      max-width: 600px;
+      margin: 5rem auto 0 auto;
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.7), #001b0c);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* The "screen" area inside the TV */
+    .screen {
+      width: 90%;
+      background: rgba(255, 255, 255, 0.05);
       border-radius: 10px;
-      background-color: rgba(0, 0, 0, 0.3);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
-      animation: fadeIn 1.5s ease-in-out;
+      box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      padding: 1rem;
+      position: relative;
     }
 
-    /* Heading style */
-    h1 {
+    .screen p {
       font-family: "Times New Roman", serif;
-      font-size: 3rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: 1rem;
-      animation: glow 2s ease-in-out infinite alternate;
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.4);
     }
 
-    @keyframes glow {
-      0% {
-        text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
-      }
-      100% {
-        text-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
-      }
+    /* FORM STYLING */
+    .form-container {
+      margin-top: 1rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: left;
     }
 
-    /* Fade in animation for container */
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.9);
+    .form-container label {
+      display: block;
+      margin: 0.8rem 0 0.3rem;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #0f5f2e;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-container input:focus {
+      outline: none;
+      border-color: #33a552;
+    }
+
+    .form-container button {
+      display: block;           
+      margin: 1rem auto 0 auto; 
+      padding: 0.6rem 1.2rem;
+      background: #041b0c;
+      border: 2px solid #0f5f2e;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background: #0f5f2e;
+    }
+
+    /* Custom Alert Box */
+    .alert-box {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 200px;
+      padding: 1rem;
+      background-color: #0f5f2e; /* A deeper green for the box */
+      border: 2px solid #33a552; /* Lighter green border */
+      border-radius: 8px;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+      display: none;   /* hidden by default */
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Show the box (used by JS) */
+    .alert-box.show {
+      display: block;
+      opacity: 1;
+    }
+
+    /* MEDIA QUERIES for responsiveness */
+    @media (max-width: 600px) {
+      .tv-container {
+        width: 95%;
+        margin-top: 3rem;
       }
-      100% {
-        opacity: 1;
-        transform: scale(1);
+      .screen p {
+        font-size: 1rem;
+      }
+      .form-container {
+        max-width: 90%;
+        margin: 1rem auto;
       }
     }
   </style>
@@ -130,8 +234,82 @@
     </div>
   </header>
 
-  <div class="coming-soon">
-    <h1>Coming Soon</h1>
+  <div class="tv-container">
+    <div class="screen">
+      <!-- Heading -->
+      <p>Enter the Colosseum 🏛️</p>
+
+      <!-- Form Container -->
+      <div class="form-container">
+        <form name="submit-to-google-sheet" id="submitForm">
+          <label for="twitter">Twitter Username</label>
+          <input type="text" id="twitter" name="twitter" placeholder="@YourTwitterHandle" required />
+
+          <label for="discord">Discord Username</label>
+          <input type="text" id="discord" name="discord" placeholder="Name#0000" required />
+
+          <label for="telegram">Telegram Username</label>
+          <input type="text" id="telegram" name="telegram" placeholder="@YourTelegram" />
+
+          <label for="allocation">Allocation amount wanted (in sol)</label>
+          <input type="number" step="0.01" id="allocation" name="allocation" placeholder="0.5" required />
+
+          <!-- reCAPTCHA widget -->
+          <div class="g-recaptcha" data-sitekey="6Le1FuUqAAAAAAvZPfPmXYeNS0Lf_Q56ynApo8DR"></div>
+
+          <!-- Submit WL Button -->
+          <button type="submit">Submit WL</button>
+        </form>
+      </div>
+    </div>
   </div>
+
+  <!-- The custom alert box (initially hidden) -->
+  <div id="customAlert" class="alert-box"></div>
+
+  <!-- reCAPTCHA script -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <!-- Script to send form data to Google Sheets -->
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzCHx00GC8ZIc3D1MEVJ_pgpf-yWHjm7wx5q9YILjNDhCv58JHs1_oHgqQPi9fBrsKr/exec';
+    const form = document.getElementById('submitForm');
+    const customAlert = document.getElementById('customAlert');
+
+    // Show the custom alert box with a given message
+    function showAlert(message) {
+      customAlert.textContent = message;
+      customAlert.classList.add('show');
+
+      // Auto-hide after 2 seconds (adjust if you want a different duration)
+      setTimeout(() => {
+        customAlert.classList.remove('show');
+        // Clear the text after fade-out if desired
+        setTimeout(() => { customAlert.textContent = ''; }, 300);
+      }, 2000);
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      // Validate that reCAPTCHA has been completed
+      const recaptchaValue = document.querySelector('.g-recaptcha-response').value;
+      if (!recaptchaValue) {
+        showAlert('Please complete the reCAPTCHA.');
+        return;
+      }
+
+      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => {
+          showAlert('Form submitted successfully!');
+          form.reset();
+          grecaptcha.reset(); // Reset the reCAPTCHA widget
+        })
+        .catch(error => {
+          console.error('Error!', error.message);
+          showAlert('There was an error submitting the form.');
+        });
+    });
+  </script>
 </body>
 </html>
