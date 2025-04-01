@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
       padding: 0;
       box-sizing: border-box;
     }
+
     .alert-box {
       position: fixed;
       top: 50%;
@@ -86,7 +88,7 @@
     .container {
       text-align: center;
       padding: 2rem;
-      padding-top:1rem;
+      padding-top: 1rem;
       max-width: 600px;
       background: rgba(0, 0, 0, 0.6);
       border-radius: 10px;
@@ -125,74 +127,148 @@
     button:hover {
       background-color: #666;
     }
-  </style>
-</head>
-<body>
 
-<header>
-  <div class="brand">Tribune Labs</div>
-  <div class="social-links">
-    <a href="https://x.com/Tribune_Labs" target="_blank">X</a>
-    <a href="https://t.me/tribunelabs" target="_blank">Telegram</a>
-    <a href="https://discord.gg/tribunelabs" target="_blank">Discord</a>
-  </div>
-</header>
-<div id="customAlert" class="alert-box"></div>
-
-<div class="container">
-  <h1>Join Our Newsletter  </h1>
-  <form id="signup-form">
-    <input type="text" id="discordName" placeholder="Discord Name (Optional)">
-    <input type="text" id="firstName" placeholder="First Name (Optional)">
-    <input type="email" id="email" placeholder="Enter Email" required>
-    <select id="newsletter" required>
-      <option value="">Select Newsletter</option>
-      <option value="Market Insights">Market Insights</option>
-      <option value="Tribune Posts">Tribune Posts</option>
-      <option value="AUM Updates">AUM Updates</option>
-      <option value="All the Above">All the Above</option>
-    </select>
-    <button type="submit">Subscribe</button>
-  </form>
-</div>
-
-<script>
-  document.getElementById("signup-form").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const discordName = document.getElementById("discordName").value;
-    const firstName = document.getElementById("firstName").value;
-    const email = document.getElementById("email").value;
-    const newsletter = document.getElementById("newsletter").value;
-    const customAlert = document.getElementById('customAlert');
-
-    function showAlert(message) {
-      customAlert.textContent = message;
-      customAlert.classList.add('show');
-
-      // Auto-hide after 2 seconds (adjust if you want a different duration)
-      setTimeout(() => {
-        customAlert.classList.remove('show');
-        // Clear the text after fade-out if desired
-        setTimeout(() => { customAlert.textContent = ''; }, 300);
-      }, 2000);
+    .confirmation {
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
     }
 
-    fetch('https://script.google.com/macros/s/AKfycbyqUoNCOZ-B6TzWUqPiiosIjjJbtEGJT3-LyF1oQAfLQsUcHkmvL1rb0xwXSFHsvstX/exec', {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ discordName, firstName, email, newsletter })
-    })
-      .then(() => {
-        showAlert('Subscription successful!');
-        document.getElementById("signup-form").reset();
+    .checkmark {
+      font-size: 3rem;
+      color: #4caf50;
+      margin-bottom: 0.75rem;
+      animation: popIn 0.6s ease;
+    }
+
+    .confirmation h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .confirmation p {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      text-decoration: none;
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: #4caf50;
+      color: #fff;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #45a049;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0);
+      }
+
+      80% {
+        transform: scale(1.2);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">Tribune Labs</div>
+    <div class="social-links">
+      <a href="https://x.com/Tribune_Labs" target="_blank">X</a>
+      <a href="https://t.me/tribunelabs" target="_blank">Telegram</a>
+      <a href="https://discord.gg/tribunelabs" target="_blank">Discord</a>
+    </div>
+  </header>
+  <div id="customAlert" class="alert-box"></div>
+
+  <div id="newsLetterForm" class="container">
+    <h1>Join Our Newsletter </h1>
+    <form id="signup-form">
+      <input type="text" id="discordName" placeholder="Discord Name (Optional)">
+      <input type="text" id="firstName" placeholder="First Name (Optional)">
+      <input type="email" id="email" placeholder="Enter Email" required>
+      <select id="newsletter" required>
+        <option value="">Select Newsletter</option>
+        <option value="Market Insights">Market Insights</option>
+        <option value="Tribune Posts">Tribune Posts</option>
+        <option value="AUM Updates">AUM Updates</option>
+        <option value="All the Above">All the Above</option>
+      </select>
+      <button type="submit" id="submitBtn">Subscribe</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("signup-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById("submitBtn");
+      submitBtn.disabled = true; // Immediately disable to prevent spam
+      submitBtn.textContent = "Submitting...";
+
+      const discordName = document.getElementById("discordName").value;
+      const firstName = document.getElementById("firstName").value;
+      const email = document.getElementById("email").value;
+      const newsletter = document.getElementById("newsletter").value;
+      const customAlert = document.getElementById('customAlert');
+      const newsLetterForm = document.getElementById('newsLetterForm');
+
+      function showAlert(message) {
+        customAlert.textContent = message;
+        customAlert.classList.add('show');
+
+        // Auto-hide after 2 seconds (adjust if you want a different duration)
+        setTimeout(() => {
+          customAlert.classList.remove('show');
+          // Clear the text after fade-out if desired
+          setTimeout(() => { customAlert.textContent = ''; }, 300);
+        }, 2000);
+      }
+
+      fetch('https://script.google.com/macros/s/AKfycbyqUoNCOZ-B6TzWUqPiiosIjjJbtEGJT3-LyF1oQAfLQsUcHkmvL1rb0xwXSFHsvstX/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ discordName, firstName, email, newsletter })
       })
-      .catch(() => showAlert('Error subscribing. Please try again later.'));
-  });
-</script>
+        .then(() => {
+          newsLetterForm.innerHTML = `
+    <div class="confirmation">
+      <div class="checkmark">✓</div>
+      <h1>You're Subscribed!</h1>
+      <p>Expect premium insights straight to your inbox.</p>
+      <a href="https://discord.gg/tribunelabs" class="btn">Join our Discord Community</a>
+    </div>`;
+        })
+        .catch(() => showAlert('Error subscribing. Please try again later.'));
+    });
+  </script>
 
 </body>
+
 </html>
